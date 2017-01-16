@@ -7,16 +7,6 @@
     <!-- Creating tables -->
     <changeSet id="1" author="Siarhei.Beliabniou">
 
-        <!-- Referee table -->
-        <createTable tableName="Referee">
-            <column name="id" autoIncrement="true" type="int">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
         <!-- League table -->
         <createTable tableName="League">
             <column name="id" autoIncrement="true" type="int">
@@ -403,6 +393,38 @@
             </column>
             <column name="Closing_Bets_id" type="int">
                 <constraints foreignKeyName="fk_Closing_Bets_id" references="Closing_Bets(id)" nullable="true"/>
+            </column>
+        </createTable>
+
+        <!-- Referee table -->
+        <createTable tableName="Referee">
+            <column name="id" autoIncrement="true" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Match table -->
+        <createTable tableName="Match">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="home_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_home_id" references="Team(id)"/>
+            </column>
+            <column name="away_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_away_id" references="Team(id)"/>
+            </column>
+            <column name="Stats_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_stats_id" references="Stats(id)"/>
+            </column>
+            <column name="Bets_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_bets_id" references="Bets(id)"/>
+            </column>
+            <column name="Referee_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_referee_id" references="Referee(id)"/>
             </column>
         </createTable>
     </changeSet>
