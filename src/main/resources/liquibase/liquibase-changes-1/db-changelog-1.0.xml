@@ -1,0 +1,409 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <!-- Creating tables -->
+    <changeSet id="1" author="Siarhei.Beliabniou">
+
+        <!-- Referee table -->
+        <createTable tableName="Referee">
+            <column name="id" autoIncrement="true" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- League table -->
+        <createTable tableName="League">
+            <column name="id" autoIncrement="true" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Team table -->
+        <createTable tableName="Team">
+            <column name="id" autoIncrement="true" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="league_id" type="int">
+                <constraints foreignKeyName="fk_league_id" references="League(id)" nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Usual Stats table -->
+        <createTable tableName="Usual_stats">
+            <column name="id" autoIncrement="true" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="FTHG" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FTAG" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FTR" type="varchar(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HTHG" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HTAG" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HTR" type="varchar(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Additional Stats table -->
+        <createTable tableName="Additional_stats">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="HS" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="AS" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="HST" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="AST" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="HHW" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="AHW" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="HC" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="AC" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="HF" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="AF" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="HO" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="AO" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="HY" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="AY" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="HR" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="AR" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="HBP" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ABP" type="int">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <!-- Stats table -->
+        <createTable tableName="Stats">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="usual_stats_id" type="int">
+                <constraints foreignKeyName="fk_usual_stats_id" references="Usual_stats(id)" nullable="false"/>
+            </column>
+            <column name="additional_stats_id" type="int">
+                <constraints foreignKeyName="fk_additional_stats_id" references="Additional_stats(id)" nullable="true"/>
+            </column>
+        </createTable>
+
+        <!-- 1X2_Bets table -->
+        <createTable tableName="1X2_Bets">
+            <column name="id" autoIncrement="true" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="B365H" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="B365D" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="B365A" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BSH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BSD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BSA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BWH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BWD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BWA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="GBH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="GBD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="GBA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="IWH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="IWD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="IWA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="LBH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="LBD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="LBA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="PSH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="PSD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="PSA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SOH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SOD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SOA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SBH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SBD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SBA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SJH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SJD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SJA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SYH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SYD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SYA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="VCH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="VCD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="VCA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="WHH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="WHD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="WHA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <!-- Bb1X2 Bets table -->
+        <createTable tableName="Bb1X2_Bets">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="BbMxH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbAvH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbMxD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbAvD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbMxA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbAvA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <!-- BbOU Bets table -->
+        <createTable tableName="BbOU_Bets">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="BbMx_more_25" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbAv_more_25" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbMx_less_25" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbAv_less_25" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="GB_more_25" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="GB_less_25" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="B365_more_25" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="B365_less_25" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <!-- BbAH Bets table -->
+        <createTable tableName="BbAH_Bets">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="BbAHh" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbMxAHH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbAvAHH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbMxAHA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BbAvAHA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="GBAHH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="GBAHA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="GBAH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="LBAHH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="LBAHA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="LBAH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="B365AHH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="B365AHA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="B365AH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <!-- Closing Bets table -->
+        <createTable tableName="Closing_Bets">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="PSCH" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="PSCD" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="PSCA" type="float(2)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <!--Bets table -->
+        <createTable tableName="Bets">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="1X2_Bets_id" type="int">
+                <constraints foreignKeyName="fk_1X2_Bets_id" references="1X2_Bets(id)" nullable="true"/>
+            </column>
+            <column name="Bb1X2_Bets_id" type="int">
+                <constraints foreignKeyName="fk_Bb1X2_Bets_id" references="Bb1X2_Bets(id)" nullable="true"/>
+            </column>
+            <column name="BbOU_Bets_id" type="int">
+                <constraints foreignKeyName="fk_BbOU_Bets_id" references="BbOU_Bets(id)" nullable="true"/>
+            </column>
+            <column name="BbAH_Bets_id" type="int">
+                <constraints foreignKeyName="fk_BbAH_Bets_id" references="BbAH_Bets(id)" nullable="true"/>
+            </column>
+            <column name="Closing_Bets_id" type="int">
+                <constraints foreignKeyName="fk_Closing_Bets_id" references="Closing_Bets(id)" nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
