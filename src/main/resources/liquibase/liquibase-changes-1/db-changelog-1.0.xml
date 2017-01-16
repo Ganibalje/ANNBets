@@ -60,10 +60,10 @@
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="HS" type="int">
+            <column name="HSh" type="int">
                 <constraints nullable="true"/>
             </column>
-            <column name="AS" type="int">
+            <column name="ASh" type="int">
                 <constraints nullable="true"/>
             </column>
             <column name="HST" type="int">
