@@ -411,6 +411,9 @@
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
+            <column name="date_of_match" type="Date">
+                <constraints nullable="false"/>
+            </column>
             <column name="home_id" type="int">
                 <constraints nullable="false" foreignKeyName="fk_home_id" references="Team(id)"/>
             </column>
@@ -421,10 +424,10 @@
                 <constraints nullable="false" foreignKeyName="fk_stats_id" references="Stats(id)"/>
             </column>
             <column name="Bets_id" type="int">
-                <constraints nullable="false" foreignKeyName="fk_bets_id" references="Bets(id)"/>
+                <constraints nullable="true" foreignKeyName="fk_bets_id" references="Bets(id)"/>
             </column>
             <column name="Referee_id" type="int">
-                <constraints nullable="false" foreignKeyName="fk_referee_id" references="Referee(id)"/>
+                <constraints nullable="true" foreignKeyName="fk_referee_id" references="Referee(id)"/>
             </column>
         </createTable>
     </changeSet>
