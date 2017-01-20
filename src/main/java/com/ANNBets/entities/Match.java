@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by siarhei_beliabniou on 18.1.17.
  */
 @Entity
-@Table(name = "Match")
+@Table(name = "Football_Match")
 public class Match {
     @Id
     @Column(name = "id")

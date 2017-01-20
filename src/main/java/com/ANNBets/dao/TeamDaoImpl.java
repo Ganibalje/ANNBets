@@ -44,4 +44,19 @@ public class TeamDaoImpl implements TeamDao {
         sessionFactory.getCurrentSession().delete(team);
         return team.getId();
     }
+
+    @Override
+    public Boolean isExistByName(String name) {
+        Team team = (Team) sessionFactory.getCurrentSession().createQuery("from Team where name=:name")
+                .setParameter("name", name).uniqueResult();
+        return team != null;
+    }
+
+    @Override
+    public Team getTeamByName(String name) {
+        return (Team) sessionFactory.getCurrentSession().createQuery("from Team where name=:name")
+                .setParameter("name", name).uniqueResult();
+    }
+
+
 }

@@ -1,6 +1,8 @@
 package com.ANNBets.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Created by ganibal on 16.1.17.
@@ -218,5 +220,10 @@ public class AdditionalStats {
 
     public void setABP(Integer ABP) {
         this.ABP = ABP;
+    }
+
+    public boolean isFilled(){
+        return Stream.of(HS, AS, HST, AST, HHW, AHW, HC, AC, HF, AF, HO, AO, HY, AY, HR, AR, HBP, ABP)
+                .anyMatch(Objects::nonNull);
     }
 }

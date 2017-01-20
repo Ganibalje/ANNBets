@@ -2,10 +2,12 @@ package com.ANNBets.service;
 
 import com.ANNBets.dao.MatchDao;
 import com.ANNBets.entities.Match;
+import com.ANNBets.entities.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,5 +47,11 @@ public class MatchServiceImpl implements MatchService{
     @Transactional
     public Long removeMatch(Match match) {
         return matchDao.removeMatch(match);
+    }
+
+    @Override
+    @Transactional
+    public Boolean isExist(Team homeTeam, Team awayTeam, Date date) {
+        return matchDao.isExist(homeTeam, awayTeam, date);
     }
 }

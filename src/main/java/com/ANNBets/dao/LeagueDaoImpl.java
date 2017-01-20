@@ -2,6 +2,7 @@ package com.ANNBets.dao;
 
 import com.ANNBets.entities.League;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -44,4 +45,19 @@ public class LeagueDaoImpl implements LeagueDao {
         sessionFactory.getCurrentSession().delete(league);
         return league.getId();
     }
+
+    @Override
+    public Boolean isExistByName(String name) {
+        League league = (League) sessionFactory.getCurrentSession().createQuery("from League where name=:name")
+                .setParameter("name", name).uniqueResult();
+        return league != null;
+    }
+
+    @Override
+    public League getLeagueByName(String name) {
+        return (League)sessionFactory.getCurrentSession().createQuery("from League where name=:name")
+                .setParameter("name", name).uniqueResult();
+    }
+
+
 }

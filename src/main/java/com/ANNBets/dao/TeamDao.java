@@ -13,4 +13,6 @@ public interface TeamDao {
     List<Team> listTeams();
     Team getTeamById(Long id);
     Long removeTeam(Team team);
+    Boolean isExistByName(String name);
+    Team getTeamByName(String name);
 }

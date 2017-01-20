@@ -14,4 +14,6 @@ public interface RefereeDao {
     List<Referee> listReferees();
     Referee getRefereeById(Long id);
     Long removeReferee(Referee referee);
+    Boolean isExistByName(String name);
+    Referee getRefereeByName(String name);
 }

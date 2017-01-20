@@ -46,4 +46,18 @@ public class LeagueServiceImpl implements LeagueService {
     public Long removeLeague(League league) {
         return leagueDao.removeLeague(league);
     }
+
+    @Override
+    @Transactional
+    public Boolean isExistByName(String name) {
+        return leagueDao.isExistByName(name);
+    }
+
+    @Override
+    @Transactional
+    public League getLeagueByName(String name) {
+        return leagueDao.getLeagueByName(name);
+    }
+
+
 }

@@ -13,4 +13,6 @@ public interface LeagueDao {
     List<League> listLeagues();
     League getLeagueById(Long id);
     Long removeLeague(League league);
+    Boolean isExistByName(String name);
+    League getLeagueByName(String name);
 }

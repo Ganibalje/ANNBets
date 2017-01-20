@@ -65,9 +65,9 @@ public class WebMvcConfiguration {
     }
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.show_sql", "true");
-        properties.put("format_sql", "true");
-        properties.put("use_sql_comments", "true");
+        properties.put("hibernate.show_sql", "false");
+        properties.put("format_sql", "false");
+        properties.put("use_sql_comments", "false");
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         return properties;
     }

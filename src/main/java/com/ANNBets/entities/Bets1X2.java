@@ -1,6 +1,8 @@
 package com.ANNBets.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Created by siarhei_beliabniou on 18.1.17.
@@ -450,5 +452,11 @@ public class Bets1X2 {
 
     public void setWHA(Float WHA) {
         this.WHA = WHA;
+    }
+
+    public boolean isFilled(){
+        return Stream.of(B365H, B365D, B365A, BSH, BSD, BSA, BWH, BWD, BWA, GBH, GBD, GBA, IWH, IWD, IWA, LBH, LBD, LBA,
+                PSH, PSD, PSA, SOH, SOD, SOA, SBH, SBD, SBA, SJH, SJD, SJA, SYH, SYD, SYA, VCH, VCD, VCA, WHH, WHD, WHA)
+                .anyMatch(Objects::nonNull);
     }
 }

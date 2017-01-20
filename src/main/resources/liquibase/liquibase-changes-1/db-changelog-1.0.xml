@@ -314,7 +314,7 @@
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="BbAHh" type="int">
+            <column name="BbAHh" type="float(2)">
                 <constraints nullable="true"/>
             </column>
             <column name="BbMxAHH" type="float(2)">
@@ -407,11 +407,11 @@
         </createTable>
 
         <!-- Match table -->
-        <createTable tableName="Match">
+        <createTable tableName="Football_Match">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="date_of_match" type="Date">
+            <column name="date_of_match" type="date">
                 <constraints nullable="false"/>
             </column>
             <column name="home_id" type="int">
@@ -428,6 +428,35 @@
             </column>
             <column name="Referee_id" type="int">
                 <constraints nullable="true" foreignKeyName="fk_referee_id" references="Referee(id)"/>
+            </column>
+        </createTable>
+
+        <!-- File_Status table -->
+        <createTable tableName="File_Status">
+            <column name="id" autoIncrement="true" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="File_status" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- File table -->
+        <createTable tableName="File">
+            <column name="id" autoIncrement="true" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="File_name" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="File_data" type="longblob">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Upload_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="File_status_id" type="int">
+                <constraints foreignKeyName="fk_file_status_id" references="File_Status(id)" nullable="false"/>
             </column>
         </createTable>
     </changeSet>

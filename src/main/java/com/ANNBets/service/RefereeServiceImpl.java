@@ -46,4 +46,16 @@ public class RefereeServiceImpl implements RefereeService {
     public Long removeReferee(Referee referee) {
         return refereeDao.removeReferee(referee);
     }
+
+    @Override
+    @Transactional
+    public Boolean isExistByName(String name) {
+        return refereeDao.isExistByName(name);
+    }
+
+    @Override
+    @Transactional
+    public Referee getRefereeByName(String name) {
+        return refereeDao.getRefereeByName(name);
+    }
 }

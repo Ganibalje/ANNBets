@@ -47,5 +47,17 @@ public class TeamServiceImpl implements TeamService {
         return teamDao.removeTeam(team);
     }
 
+    @Override
+    @Transactional
+    public Boolean isExistByName(String name) {
+        return teamDao.isExistByName(name);
+    }
+
+    @Override
+    @Transactional
+    public Team getTeamByName(String name) {
+        return teamDao.getTeamByName(name);
+    }
+
 
 }

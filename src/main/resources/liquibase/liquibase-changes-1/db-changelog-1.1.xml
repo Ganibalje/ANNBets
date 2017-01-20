@@ -1,0 +1,20 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="2" author="siarhei.beliabniou">
+        <insert tableName="File_Status">
+            <column name="File_status" value="Uploaded"/>
+        </insert>
+        <insert tableName="File_Status">
+            <column name="File_status" value="Parsing..."/>
+        </insert>
+        <insert tableName="File_Status">
+            <column name="File_status" value="Error"/>
+        </insert>
+        <insert tableName="File_Status">
+            <column name="File_status" value="Successfully Parsed"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

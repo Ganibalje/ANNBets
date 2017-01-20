@@ -1,6 +1,8 @@
 package com.ANNBets.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Created by siarhei_beliabniou on 18.1.17.
@@ -15,7 +17,7 @@ public class BbAHBets {
     private Long id;
 
     @Column(name = "BbAHh")
-    private Integer BbAHh;
+    private Float BbAHh;
 
     @Column(name = "BbMxAHH")
     private Float BbMxAHH;
@@ -65,11 +67,11 @@ public class BbAHBets {
         this.id = id;
     }
 
-    public Integer getBbAHh() {
+    public Float getBbAHh() {
         return BbAHh;
     }
 
-    public void setBbAHh(Integer bbAHh) {
+    public void setBbAHh(Float bbAHh) {
         BbAHh = bbAHh;
     }
 
@@ -175,5 +177,10 @@ public class BbAHBets {
 
     public void setB365AH(Float b365AH) {
         B365AH = b365AH;
+    }
+
+    public boolean isFilled(){
+        return Stream.of(BbAHh, BbMxAHH, BbAvAHH, BbMxAHA, BbAvAHA, GBAHH, GBAHA, GBAH, LBAHH, LBAHA, LBAH, B365AHH, B365AHA, B365AH)
+                .anyMatch(Objects::nonNull);
     }
 }

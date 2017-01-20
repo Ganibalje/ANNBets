@@ -1,6 +1,8 @@
 package com.ANNBets.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Created by siarhei_beliabniou on 18.1.17.
@@ -54,5 +56,10 @@ public class ClosingBets {
 
     public void setPSCA(Float PSCA) {
         this.PSCA = PSCA;
+    }
+
+    public boolean isFilled(){
+        return Stream.of(PSCH, PSCD, PSCA)
+                .anyMatch(Objects::nonNull);
     }
 }

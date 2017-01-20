@@ -1,6 +1,8 @@
 package com.ANNBets.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Created by siarhei_beliabniou on 18.1.17.
@@ -16,6 +18,12 @@ public class BbOUBets {
 
     @Column(name = "BbMx_more_25")
     private Float BbMx_more_25;
+
+    @Column(name = "BbAv_more_25")
+    private Float BbAv_more_25;
+
+    @Column(name = "BbMx_less_25")
+    private Float BbMx_less_25;
 
     @Column(name = "BbAv_less_25")
     private Float BbAv_less_25;
@@ -42,6 +50,22 @@ public class BbOUBets {
 
     public Float getBbMx_more_25() {
         return BbMx_more_25;
+    }
+
+    public Float getBbAv_more_25() {
+        return BbAv_more_25;
+    }
+
+    public void setBbAv_more_25(Float bbAv_more_25) {
+        BbAv_more_25 = bbAv_more_25;
+    }
+
+    public Float getBbMx_less_25() {
+        return BbMx_less_25;
+    }
+
+    public void setBbMx_less_25(Float bbMx_less_25) {
+        BbMx_less_25 = bbMx_less_25;
     }
 
     public void setBbMx_more_25(Float bbMx_more_25) {
@@ -86,5 +110,10 @@ public class BbOUBets {
 
     public void setB365_less_25(Float b365_less_25) {
         B365_less_25 = b365_less_25;
+    }
+
+    public boolean isFilled(){
+        return Stream.of(BbMx_more_25, BbAv_more_25, BbMx_less_25, BbAv_less_25, GB_more_25, GB_less_25, B365_more_25, B365_less_25)
+                .anyMatch(Objects::nonNull);
     }
 }

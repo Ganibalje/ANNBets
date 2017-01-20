@@ -48,4 +48,17 @@ public class RefereeDaoImpl implements RefereeDao {
         sessionFactory.getCurrentSession().delete(referee);
         return referee.getId();
     }
+
+    @Override
+    public Boolean isExistByName(String name) {
+        Referee league = (Referee) sessionFactory.getCurrentSession().createQuery("from Referee where name=:name")
+                .setParameter("name", name).uniqueResult();
+        return league != null;
+    }
+
+    @Override
+    public Referee getRefereeByName(String name) {
+        return (Referee) sessionFactory.getCurrentSession().createQuery("from Referee where name=:name")
+                .setParameter("name", name).uniqueResult();
+    }
 }

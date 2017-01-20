@@ -1,6 +1,8 @@
 package com.ANNBets.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Created by siarhei_beliabniou on 18.1.17.
@@ -87,5 +89,10 @@ public class Bb1X2Bets {
 
     public void setBbAvA(Float bbAvA) {
         BbAvA = bbAvA;
+    }
+
+    public boolean isFilled(){
+        return Stream.of(BbMxH, BbAvH, BbMxD, BbAvD, BbMxA, BbAvA)
+                .anyMatch(Objects::nonNull);
     }
 }
