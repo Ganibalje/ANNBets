@@ -1,6 +1,7 @@
 package com.ANNBets.dao;
 
 import com.ANNBets.entities.File;
+import com.ANNBets.entities.FileStatus;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface FileDao {
     List<File> listFile();
     File getFileById(Long id);
     Long removeFile(File file);
+    File getFileByStatus(FileStatus fileStatus);
 }

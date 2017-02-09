@@ -18,6 +18,13 @@ public class Referee {
     @Column(name = "name")
     private String name;
 
+    public Referee() {
+    }
+
+    public Referee(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

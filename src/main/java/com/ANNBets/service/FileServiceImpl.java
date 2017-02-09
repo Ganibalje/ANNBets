@@ -2,6 +2,7 @@ package com.ANNBets.service;
 
 import com.ANNBets.dao.FileDao;
 import com.ANNBets.entities.File;
+import com.ANNBets.entities.FileStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,5 +46,11 @@ public class FileServiceImpl implements FileService{
     @Transactional
     public Long removeFile(File file) {
         return fileDao.removeFile(file);
+    }
+
+    @Override
+    @Transactional
+    public File getFileByStatus(FileStatus fileStatus) {
+        return fileDao.getFileByStatus(fileStatus);
     }
 }

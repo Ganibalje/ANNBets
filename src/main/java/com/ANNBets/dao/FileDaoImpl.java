@@ -1,6 +1,7 @@
 package com.ANNBets.dao;
 
 import com.ANNBets.entities.File;
+import com.ANNBets.entities.FileStatus;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
@@ -44,4 +45,12 @@ public class FileDaoImpl implements FileDao{
         sessionFactory.getCurrentSession().delete(file);
         return file.getId();
     }
+
+    @Override
+    public File getFileByStatus(FileStatus fileStatus) {
+        List files = sessionFactory.getCurrentSession().createQuery("from File where fileStatus=:fileStatus")
+                .setParameter("fileStatus", fileStatus).list();
+        return files.size() == 0 ? null : (File)files.get(0);
+    }
+
 }

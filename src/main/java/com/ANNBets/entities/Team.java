@@ -20,6 +20,14 @@ public class Team {
     @JoinColumn(name = "league_id")
     private League league;
 
+    public Team() {
+    }
+
+    public Team(String name, League league) {
+        this.name = name;
+        this.league = league;
+    }
+
     public Long getId() {
         return id;
     }

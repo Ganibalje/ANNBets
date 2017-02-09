@@ -16,6 +16,13 @@ public class League {
     @Column(name = "name")
     private String name;
 
+    public League() {
+    }
+
+    public League(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,5 +1,6 @@
 package com.ANNBets.dao;
 
+import com.ANNBets.entities.League;
 import com.ANNBets.entities.Match;
 import com.ANNBets.entities.Team;
 import org.hibernate.Criteria;
@@ -57,5 +58,30 @@ public class MatchDaoImpl implements MatchDao {
                 .setParameter("date", date)
                 .uniqueResult();
         return league != null;
+    }
+
+    @Override
+    public List<Match> getListByHomeTeam(Team homeTeam) {
+        return sessionFactory.getCurrentSession().createQuery("from Match where homeTeam=:homeTeam")
+                .setParameter("homeTeam", homeTeam).list();
+    }
+
+    @Override
+    public List<Match> getListByAwayTeam(Team awayTeam) {
+        return sessionFactory.getCurrentSession().createQuery("from Match where awayTeam=:awayTeam")
+                .setParameter("awayTeam", awayTeam).list();
+    }
+
+    @Override
+    public List<Match> getListByBothTeam(Team homeTeam, Team awayTeam) {
+        return sessionFactory.getCurrentSession().createQuery("from Match where homeTeam=:homeTeam and awayTeam=:awayTeam")
+                .setParameter("homeTeam", homeTeam)
+                .setParameter("awayTeam", awayTeam).list();
+    }
+
+    @Override
+    public List<Match> getListByLeague(League league) {
+        return sessionFactory.getCurrentSession().createQuery("from Match where homeTeam.league=:league and awayTeam.league=:league")
+                .setParameter("league", league).list();
     }
 }

@@ -1,6 +1,7 @@
 package com.ANNBets.service;
 
 import com.ANNBets.entities.File;
+import com.ANNBets.entities.FileStatus;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface FileService {
     List<File> listFile();
     File getFileById(Long id);
     Long removeFile(File file);
+    File getFileByStatus(FileStatus fileStatus);
 }

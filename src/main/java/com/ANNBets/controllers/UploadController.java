@@ -22,10 +22,10 @@ public class UploadController {
 
     @RequestMapping(value = "/uploadFile")
     @ResponseBody
-    public void uplaod(){
+    public void uplaod(String fileName){
         File file = new File();
 
-        String filePath = "/home/siarhei_beliabniou/T1.csv";
+        String filePath = "/home/siarhei_beliabniou/" + fileName + ".csv";
         byte[] bFile = null;
         try {
             bFile = Files.readAllBytes(new java.io.File(filePath).toPath());
@@ -34,7 +34,7 @@ public class UploadController {
         }
 
         file.setFileData(bFile);
-        file.setFileName("lol");
+        file.setFileName(fileName);
         file.setFileStatus(FileStatuses.uploaded);
         file.setUploadDate(new Date());
 

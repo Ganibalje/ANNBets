@@ -1,5 +1,6 @@
 package com.ANNBets.dao;
 
+import com.ANNBets.entities.League;
 import com.ANNBets.entities.Match;
 import com.ANNBets.entities.Team;
 
@@ -16,4 +17,8 @@ public interface MatchDao {
     Match getMatchById(Long id);
     Long removeMatch(Match match);
     Boolean isExist(Team homeTeam, Team awayTeam, Date date);
+    List<Match> getListByHomeTeam(Team homeTeam);
+    List<Match> getListByAwayTeam(Team awayTeam);
+    List<Match> getListByBothTeam(Team homeTeam, Team awayTeam);
+    List<Match> getListByLeague(League league);
 }

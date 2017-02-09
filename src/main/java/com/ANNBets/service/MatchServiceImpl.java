@@ -1,6 +1,7 @@
 package com.ANNBets.service;
 
 import com.ANNBets.dao.MatchDao;
+import com.ANNBets.entities.League;
 import com.ANNBets.entities.Match;
 import com.ANNBets.entities.Team;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,29 @@ public class MatchServiceImpl implements MatchService{
     @Transactional
     public Boolean isExist(Team homeTeam, Team awayTeam, Date date) {
         return matchDao.isExist(homeTeam, awayTeam, date);
+    }
+
+    @Override
+    @Transactional
+    public List<Match> getListByHomeTeam(Team homeTeam) {
+        return matchDao.getListByHomeTeam(homeTeam);
+    }
+
+    @Override
+    @Transactional
+    public List<Match> getListByAwayTeam(Team awayTeam) {
+        return matchDao.getListByAwayTeam(awayTeam);
+    }
+
+    @Override
+    @Transactional
+    public List<Match> getListByBothTeam(Team homeTeam, Team awayTeam) {
+        return matchDao.getListByBothTeam(homeTeam, awayTeam);
+    }
+
+    @Override
+    @Transactional
+    public List<Match> getListByLeague(League league) {
+        return matchDao.getListByLeague(league);
     }
 }
