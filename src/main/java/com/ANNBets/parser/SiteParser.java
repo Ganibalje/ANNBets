@@ -74,10 +74,11 @@ public class SiteParser {
         Connection.Response response = Jsoup.connect(url)
                 .data("login", username, "password", password)
                 .method(Connection.Method.POST)
+                .timeout(Integer.MAX_VALUE)
                 .execute();
         Map<String, String> cookies = response.cookies();
 
-        for(int i=101377;i<150000;i++){
+        for(int i=20028;i<1500000;i++){
             System.out.println(i);
             Document document = Jsoup.connect(PARSE_URL + i)
                     .cookies(cookies)
@@ -244,8 +245,14 @@ public class SiteParser {
                         String HCorners = allElements.get(1).text();
                         String ACorners = allElements.get(5).text();
 
-                        additionalStats.setHC(Integer.valueOf(HCorners.substring(0, HCorners.indexOf(' '))));
-                        additionalStats.setAC(Integer.valueOf(ACorners.substring(0, ACorners.indexOf(' '))));
+                        if(HCorners.indexOf(' ') != -1) {
+                            additionalStats.setHC(Integer.valueOf(HCorners.substring(0, HCorners.indexOf(' '))));
+                            additionalStats.setAC(Integer.valueOf(ACorners.substring(0, ACorners.indexOf(' '))));
+                        }
+                        else{
+                            additionalStats.setHC(Integer.valueOf(HCorners));
+                            additionalStats.setAC(Integer.valueOf(ACorners));
+                        }
                     }
                     break;
                 case "Total shots":
