@@ -406,8 +406,8 @@
             </column>
         </createTable>
 
-        <!-- Match table -->
-        <createTable tableName="Football_Match">
+        <!-- PlayedMatch table -->
+        <createTable tableName="Played_Football_Match">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -415,19 +415,44 @@
                 <constraints nullable="false"/>
             </column>
             <column name="home_id" type="int">
-                <constraints nullable="false" foreignKeyName="fk_home_id" references="Team(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_played_home_id" references="Team(id)"/>
             </column>
             <column name="away_id" type="int">
-                <constraints nullable="false" foreignKeyName="fk_away_id" references="Team(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_played_away_id" references="Team(id)"/>
             </column>
             <column name="Stats_id" type="int">
-                <constraints nullable="false" foreignKeyName="fk_stats_id" references="Stats(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_played_stats_id" references="Stats(id)"/>
             </column>
             <column name="Bets_id" type="int">
-                <constraints nullable="true" foreignKeyName="fk_bets_id" references="Bets(id)"/>
+                <constraints nullable="true" foreignKeyName="fk_played_bets_id" references="Bets(id)"/>
             </column>
             <column name="Referee_id" type="int">
-                <constraints nullable="true" foreignKeyName="fk_referee_id" references="Referee(id)"/>
+                <constraints nullable="true" foreignKeyName="fk_played_referee_id" references="Referee(id)"/>
+            </column>
+        </createTable>
+
+        <!-- FutureMatch table -->
+        <createTable tableName="Future_Football_Match">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="date_of_match" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="home_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_future_home_id" references="Team(id)"/>
+            </column>
+            <column name="away_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_future_away_id" references="Team(id)"/>
+            </column>
+            <column name="Stats_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_future_stats_id" references="Stats(id)"/>
+            </column>
+            <column name="Bets_id" type="int">
+                <constraints nullable="true" foreignKeyName="fk_future_bets_id" references="Bets(id)"/>
+            </column>
+            <column name="Referee_id" type="int">
+                <constraints nullable="true" foreignKeyName="fk_future_referee_id" references="Referee(id)"/>
             </column>
         </createTable>
 

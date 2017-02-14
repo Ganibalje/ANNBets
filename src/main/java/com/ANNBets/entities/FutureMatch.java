@@ -7,8 +7,8 @@ import java.util.Date;
  * Created by siarhei_beliabniou on 18.1.17.
  */
 @Entity
-@Table(name = "Football_Match")
-public class Match {
+@Table(name = "Played_Football_Match")
+public class FutureMatch {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)

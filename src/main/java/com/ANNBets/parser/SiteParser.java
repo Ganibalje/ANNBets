@@ -39,8 +39,8 @@ public class SiteParser {
     private static RefereeService refereeService;
 
     @Autowired
-    private MatchService autowiredMatchService;
-    private static MatchService matchService;
+    private PlayedMatchService autowiredPlayedMatchService;
+    private static PlayedMatchService playedMatchService;
 
     @Autowired
     private UsualStatsService autowiredUsualStatsService;
@@ -54,15 +54,20 @@ public class SiteParser {
     private StatsService autowiredStatsService;
     private static StatsService statsService;
 
+    @Autowired
+    private FutureMatchService autowiredFutureMatchService;
+    private static FutureMatchService futureMatchService;
+
     @PostConstruct
     public void initStaticService() {
         leagueService = this.autowiredLeagueService;
         teamService = this.autowiredTeamService;
         refereeService = this.autowiredRefereeService;
-        matchService = this.autowiredMatchService;
+        playedMatchService = this.autowiredPlayedMatchService;
         usualStatsService = this.autowiredUsualStatsService;
         additionalStatsService = this.autowiredAdditionalStatsService;
         statsService = this.autowiredStatsService;
+        futureMatchService = this.autowiredFutureMatchService;
     }
 
     public static void parse(String url, String username, String password) throws IOException, ParseException {
@@ -72,7 +77,7 @@ public class SiteParser {
                 .execute();
         Map<String, String> cookies = response.cookies();
 
-        for(int i=25418;i<150000;i++){
+        for(int i=101377;i<150000;i++){
             System.out.println(i);
             Document document = Jsoup.connect(PARSE_URL + i)
                     .cookies(cookies)
@@ -87,24 +92,38 @@ public class SiteParser {
                 League league = getLeague(center);
                 Team homeTeam = getHomeTeam(center, league);
                 Team awayTeam = getAwayTeam(center, league);
-                if(!matchService.isExist(homeTeam, awayTeam, dateOfMatch)) {
-                    UsualStats usualStats = getUsualStats(information);
-                    AdditionalStats additionalStats = getAdditionalStats(information);
+                if(dateOfMatch.getTime() < new Date().getTime()){
+                    if(!playedMatchService.isExist(homeTeam, awayTeam, dateOfMatch)) {
+                        UsualStats usualStats = getUsualStats(information);
+                        AdditionalStats additionalStats = getAdditionalStats(information);
 
-                    Stats stats = new Stats();
-                    stats.setUsualStats(usualStats);
-                    stats.setAdditionalStats(additionalStats);
-                    Stats statsById = statsService.getStatsById(statsService.addStats(stats));
+                        Stats stats = new Stats();
+                        stats.setUsualStats(usualStats);
+                        stats.setAdditionalStats(additionalStats);
+                        Stats statsById = statsService.getStatsById(statsService.addStats(stats));
 
-                    Match match = new Match();
-                    match.setDate(dateOfMatch);
-                    match.setHomeTeam(homeTeam);
-                    match.setAwayTeam(awayTeam);
-                    match.setStats(statsById);
-                    match.setReferee(referee);
+                        PlayedMatch playedMatch = new PlayedMatch();
+                        playedMatch.setDate(dateOfMatch);
+                        playedMatch.setHomeTeam(homeTeam);
+                        playedMatch.setAwayTeam(awayTeam);
+                        playedMatch.setStats(statsById);
+                        playedMatch.setReferee(referee);
 
-                    matchService.addMatch(match);
+                        playedMatchService.addMatch(playedMatch);
+                    }
                 }
+                else {
+                    if(!futureMatchService.isExist(homeTeam, awayTeam, dateOfMatch)) {
+                        FutureMatch futureMatch = new FutureMatch();
+                        futureMatch.setDate(dateOfMatch);
+                        futureMatch.setHomeTeam(homeTeam);
+                        futureMatch.setAwayTeam(awayTeam);
+                        futureMatch.setReferee(referee);
+
+                        futureMatchService.addMatch(futureMatch);
+                    }
+                }
+
             }
         }
 
@@ -217,50 +236,48 @@ public class SiteParser {
         }
 
         Elements other = element.getElementById("score_other").getAllElements().get(1).getAllElements().get(1).getAllElements();
-        Elements corners = other.get(1).getAllElements();
-        if(!corners.get(1).text().equals("?") && !corners.get(5).text().equals("")) {
-            additionalStats.setHC(Integer.valueOf(corners.get(1).text().substring(0, 1)));
-            additionalStats.setAC(Integer.valueOf(corners.get(5).text().substring(0, 1)));
-        }
+        for(Element additionalStatsElement : other){
+            switch (additionalStatsElement.text()){
+                case "Corners 1 half in brackets":
+                    Elements allElements = additionalStatsElement.parent().getAllElements();
+                    if(!allElements.get(1).text().equals("?") && !allElements.get(5).text().equals("?")){
+                        String HCorners = allElements.get(1).text();
+                        String ACorners = allElements.get(5).text();
 
-        Integer homeShotsOnTarget = null;
-        Integer awayShotsOnTarget = null;
-        if(other.size() > 7) {
-            Elements shotsOnTarget = other.get(7).getAllElements();
-            homeShotsOnTarget = Integer.valueOf(shotsOnTarget.get(1).text());
-            awayShotsOnTarget = Integer.valueOf(shotsOnTarget.get(3).text());
-        }
-        Integer homeShotsWide = null;
-        Integer awayShotsWide = null;
-        if(other.size() > 11) {
-            Elements shotsWide = other.get(11).getAllElements();
-            homeShotsWide = Integer.valueOf(shotsWide.get(1).text());
-            awayShotsWide = Integer.valueOf(shotsWide.get(3).text());
-        }
-        if(homeShotsOnTarget == null && homeShotsWide == null)
-            additionalStats.setHS(null);
-        else
-            additionalStats.setHS(homeShotsOnTarget + homeShotsWide);
-        if(awayShotsOnTarget == null && awayShotsWide == null)
-            additionalStats.setAS(null);
-        else
-            additionalStats.setAS(awayShotsOnTarget + awayShotsWide);
+                        additionalStats.setHC(Integer.valueOf(HCorners.substring(0, HCorners.indexOf(' '))));
+                        additionalStats.setAC(Integer.valueOf(ACorners.substring(0, ACorners.indexOf(' '))));
+                    }
+                    break;
+                case "Total shots":
+                    allElements = additionalStatsElement.parent().getAllElements();
+                    if(!allElements.get(1).text().equals("?") && !allElements.get(3).text().equals("?")){
+                        additionalStats.setHS(Integer.valueOf(allElements.get(1).text()));
+                        additionalStats.setAS(Integer.valueOf(allElements.get(3).text()));
+                    }
+                    break;
+                case "Shots on target":
+                    allElements = additionalStatsElement.parent().getAllElements();
+                    if(!allElements.get(1).text().equals("?") && !allElements.get(3).text().equals("?")){
+                        additionalStats.setHST(Integer.valueOf(allElements.get(1).text()));
+                        additionalStats.setAST(Integer.valueOf(allElements.get(3).text()));
+                    }
+                    break;
+                case "Fouls":
+                    allElements = additionalStatsElement.parent().getAllElements();
+                    if(!allElements.get(1).text().equals("?") && !allElements.get(3).text().equals("?")){
+                        additionalStats.setHF(Integer.valueOf(allElements.get(1).text()));
+                        additionalStats.setAF(Integer.valueOf(allElements.get(3).text()));
+                    }
+                    break;
+                case "Offsides":
+                    allElements = additionalStatsElement.parent().getAllElements();
+                    if(!allElements.get(1).text().equals("?") && !allElements.get(3).text().equals("?")){
+                        additionalStats.setHO(Integer.valueOf(allElements.get(1).text()));
+                        additionalStats.setAO(Integer.valueOf(allElements.get(3).text()));
+                    }
+                    break;
 
-        additionalStats.setHST(homeShotsOnTarget);
-        additionalStats.setAST(awayShotsOnTarget);
-
-        if(other.size() > 15) {
-            Elements fouls = other.get(15).getAllElements();
-            if(!fouls.get(1).text().equals("?") && !fouls.get(3).text().equals("?")) {
-                additionalStats.setHF(Integer.valueOf(fouls.get(1).text()));
-                additionalStats.setAF(Integer.valueOf(fouls.get(3).text()));
             }
-        }
-
-        if(other.size() > 19) {
-            Elements offsides = other.get(19).getAllElements();
-            additionalStats.setHO(Integer.valueOf(offsides.get(1).text()));
-            additionalStats.setAO(Integer.valueOf(offsides.get(3).text()));
         }
 
         return additionalStatsService.getAdditionalStatsById(additionalStatsService.addAdditionalStats(additionalStats));

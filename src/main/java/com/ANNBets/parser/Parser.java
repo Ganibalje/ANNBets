@@ -34,8 +34,8 @@ public class Parser {
     private static RefereeService refereeService;
 
     @Autowired
-    private MatchService autowiredMatchService;
-    private static MatchService matchService;
+    private PlayedMatchService autowiredPlayedMatchService;
+    private static PlayedMatchService playedMatchService;
 
     @Autowired
     private UsualStatsService autowiredUsualStatsService;
@@ -82,7 +82,7 @@ public class Parser {
         leagueService = this.autowiredLeagueService;
         teamService = this.autowiredTeamService;
         refereeService = this.autowiredRefereeService;
-        matchService = this.autowiredMatchService;
+        playedMatchService = this.autowiredPlayedMatchService;
         usualStatsService = this.autowiredUsualStatsService;
         additionalStatsService = this.autowiredAdditionalStatsService;
         statsService = this.autowiredStatsService;
@@ -122,7 +122,7 @@ public class Parser {
                     Team homeTeam = createOrLoadTeam(reader, reader.get("HomeTeam"), league);
                     Team awayTeam = createOrLoadTeam(reader, reader.get("AwayTeam"), league);
                     Date dateOfMatch = formatter.parse(readString(reader, "Date"));
-                    if (!matchService.isExist(homeTeam, awayTeam, dateOfMatch)) {
+                    if (!playedMatchService.isExist(homeTeam, awayTeam, dateOfMatch)) {
                         Referee referee = null;
                         String refereeName = readString(reader, "Referee");
                         if (refereeName != null) {
@@ -278,14 +278,14 @@ public class Parser {
                             bets = betsService.getBetsById(betsService.addBets(tmpBets));
 
 
-                        Match match = new Match();
-                        match.setDate(dateOfMatch);
-                        match.setHomeTeam(homeTeam);
-                        match.setAwayTeam(awayTeam);
-                        match.setStats(stats);
-                        match.setBets(bets);
-                        match.setReferee(referee);
-                        matchService.addMatch(match);
+                        PlayedMatch playedMatch = new PlayedMatch();
+                        playedMatch.setDate(dateOfMatch);
+                        playedMatch.setHomeTeam(homeTeam);
+                        playedMatch.setAwayTeam(awayTeam);
+                        playedMatch.setStats(stats);
+                        playedMatch.setBets(bets);
+                        playedMatch.setReferee(referee);
+                        playedMatchService.addMatch(playedMatch);
 
                     }
                 }

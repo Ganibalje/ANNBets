@@ -2,7 +2,7 @@ package com.ANNBets.ann;
 
 import com.ANNBets.dto.Prepared1X2Data;
 import com.ANNBets.entities.*;
-import com.ANNBets.service.MatchService;
+import com.ANNBets.service.PlayedMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,16 +20,16 @@ import java.util.List;
 public class ANNDataSupplier {
 
     @Autowired
-    private MatchService autowiredMatchService;
-    private static MatchService matchService;
+    private PlayedMatchService autowiredPlayedMatchService;
+    private static PlayedMatchService playedMatchService;
 
     @PostConstruct
     public void initStaticService() {
-        matchService = this.autowiredMatchService;
+        playedMatchService = this.autowiredPlayedMatchService;
     }
 
     public static Prepared1X2Data prepare(Team homeTeam, Team awayTeam){
-        List<Match> listByHomeTeam = matchService.getListByHomeTeam(homeTeam);
+        List<PlayedMatch> listByHomeTeam = playedMatchService.getListByHomeTeam(homeTeam);
         Float last10HTHM = 0f;
         Integer count = listByHomeTeam.size();
         Float coef = 1f/count;
@@ -48,7 +48,7 @@ public class ANNDataSupplier {
             }
         }
 
-        List<Match> listByAwayTeam = matchService.getListByAwayTeam(awayTeam);
+        List<PlayedMatch> listByAwayTeam = playedMatchService.getListByAwayTeam(awayTeam);
         Float last10ATAM = 0f;
         count = listByAwayTeam.size();
         coef = 1f/count;
@@ -67,8 +67,8 @@ public class ANNDataSupplier {
             }
         }
 
-        List<Match> listByBothTeam = matchService.getListByBothTeam(homeTeam, awayTeam);
-        listByBothTeam.addAll(matchService.getListByBothTeam(awayTeam, homeTeam));
+        List<PlayedMatch> listByBothTeam = playedMatchService.getListByBothTeam(homeTeam, awayTeam);
+        listByBothTeam.addAll(playedMatchService.getListByBothTeam(awayTeam, homeTeam));
         Float last10TvTM = 0f;
         count = listByBothTeam.size();
         coef = 1f/count;
@@ -98,17 +98,17 @@ public class ANNDataSupplier {
     }
 
     public static void writeTraingingDataToFile(League league){
-        List<Match> listByLeague = matchService.getListByLeague(league);
+        List<PlayedMatch> listByLeague = playedMatchService.getListByLeague(league);
 
         try(FileWriter fw = new FileWriter("/home/siarhei_beliabniou/training.data", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
             out.println(listByLeague.size() + " 3 3");
-            for(Match match : listByLeague){
-                Prepared1X2Data prepare = prepare(match.getHomeTeam(), match.getAwayTeam());
+            for(PlayedMatch playedMatch : listByLeague){
+                Prepared1X2Data prepare = prepare(playedMatch.getHomeTeam(), playedMatch.getAwayTeam());
                 out.println(prepare.getLast10HTHM() + " " + prepare.getLast10ATAM() + " " + prepare.getLast10TvTM());
-                String ftr = match.getStats().getUsualStats().getFTR();
+                String ftr = playedMatch.getStats().getUsualStats().getFTR();
                 out.println((ftr.equals("H") ? "1" : "0") + " " + (ftr.equals("D") ? "1" : "0") + " " + (ftr.equals("A") ? "1" : "0"));
             }
 
