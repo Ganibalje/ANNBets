@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by siarhei_beliabniou on 18.1.17.
  */
 @Entity
-@Table(name = "Played_Football_Match")
+@Table(name = "Future_Football_Match")
 public class FutureMatch {
     @Id
     @Column(name = "id")
@@ -15,7 +15,7 @@ public class FutureMatch {
     private Long id;
 
     @Column(name = "date_of_match")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @ManyToOne

@@ -78,7 +78,7 @@ public class SiteParser {
                 .execute();
         Map<String, String> cookies = response.cookies();
 
-        for(int i=20028;i<1500000;i++){
+        for(int i=123164;i<140000;i++){
             System.out.println(i);
             Document document = Jsoup.connect(PARSE_URL + i)
                     .cookies(cookies)
@@ -96,6 +96,8 @@ public class SiteParser {
                 if(dateOfMatch.getTime() < new Date().getTime()){
                     if(!playedMatchService.isExist(homeTeam, awayTeam, dateOfMatch)) {
                         UsualStats usualStats = getUsualStats(information);
+                        if(usualStats == null)
+                            continue;
                         AdditionalStats additionalStats = getAdditionalStats(information);
 
                         Stats stats = new Stats();
@@ -191,8 +193,14 @@ public class SiteParser {
 
         Elements score_goals = element.getElementById("score_text").getAllElements().get(1).getAllElements().get(1)
                 .getAllElements().get(1).getAllElements().get(1).getAllElements();
-        int homeGoals = Integer.valueOf(score_goals.get(1).text());
-        int awayGoals = Integer.valueOf(score_goals.get(3).text());
+        if(!score_goals.get(1).text().equals("?") && !score_goals.get(3).text().equals("?")) {
+            int homeGoals = Integer.valueOf(score_goals.get(1).text());
+            int awayGoals = Integer.valueOf(score_goals.get(3).text());
+            usualStats.setFTHG(homeGoals);
+            usualStats.setFTAG(awayGoals);
+            usualStats.setFTR(getScoreResult(homeGoals, awayGoals));
+        }
+        else return null;
 
         Element scoreGoals = element.getElementById("score_goals");
         Elements scoreGoalsDetails = scoreGoals.getElementsByClass("gameDetails1");
@@ -214,9 +222,6 @@ public class SiteParser {
         usualStats.setHTHG(HTHG);
         usualStats.setHTAG(HTAG);
         usualStats.setHTR(getScoreResult(HTHG, HTAG));
-        usualStats.setFTHG(homeGoals);
-        usualStats.setFTAG(awayGoals);
-        usualStats.setFTR(getScoreResult(homeGoals, awayGoals));
 
         return usualStatsService.getUsualStatsById(usualStatsService.addUsualStats(usualStats));
     }

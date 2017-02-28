@@ -15,7 +15,7 @@ public class PlayedMatch {
     private Long id;
 
     @Column(name = "date_of_match")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @ManyToOne
